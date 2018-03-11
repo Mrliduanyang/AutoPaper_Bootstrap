@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.nodeRequire = require;
+        delete window.require;
+        delete window.exports;
+        delete window.module;
+    </script>
+    <style>
+        .questionBox {
+            padding: 5px;
+            margin: 5px;
+            width: 550px;
+            height: auto;
+            border: solid 1px #ffffff;
+        }
+
+        .questionBoxOn {
+            border: solid 1px #3e3d3d;
+        }
+
+        .addQuestionButton {
+            margin-top: 10px;
+            margin-left: 450px;
+        }
+
+        .selectQuestionOption {
+            margin-left: 2em;
+        }
+
+        #explainQuestion, #selectQuestion, #answerQuestion, #calculateQuestion, #synthesizeQuestion {
+            height: 500px;
+            overflow: auto;
+        }
+
+        .paperPage {
+            width: 16.4cm;
+            height: 490px;
+            overflow: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+    <script src="https://cdn.bootcss.com/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+    <script src="js/jquery.wordexport.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <div id="unitSelectMenu"></div>
+        </div>
+        <div class="col-sm-7 ">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">计算机组成原理</a> <span class="divider">/</span>
+                </li>
+                <li>
+                    <a href="#">计算机系统概述</a> <span class="divider">/</span>
+                </li>
+                <li class="active">
+
+                </li>
+            </ul>
+            <div id="sectionDisplay">
+                <ul id="sectionDisplayTab" class="nav nav-tabs">
+                    <li class="active"><a href="#explainQuestion" data-toggle="tab">名词解释</a></li>
+                    <li><a href="#selectQuestion" data-toggle="tab">选择题</a></li>
+                    <li><a href="#answerQuestion" data-toggle="tab">简答题</a></li>
+                    <li><a href="#calculateQuestion" data-toggle="tab">计算题</a></li>
+                    <li><a href="#synthesizeQuestion" data-toggle="tab">综合题</a></li>
+
+                </ul>
+                <div id="sectionDisplayContent" class="tab-content">
+                    <!--名词解释-->
+                    <div class="tab-pane fade in active" id="explainQuestion">
+                        <h3 class="text-primary">一、填空题（每空5分，共20分）</h3>
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group" id="explainQuestionContent">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--选择题-->
+                    <div class="tab-pane fade" id="selectQuestion">
+                        <h3 class="text-primary">二、选择题（每空10分，共20分）</h3>
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group" id="selectQuestionContent">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--简答题-->
+                    <div class="tab-pane fade" id="answerQuestion">
+                        <h3 class="text-primary">三、简答题（每题20分，共20分）</h3>
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group" id="answerQuestionContent">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--计算题-->
+                    <div class="tab-pane fade" id="calculateQuestion">
+                        <h3 class="text-primary">四、计算题（每题20分，共20分）</h3>
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group" id="calculateQuestionContent">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--综合题-->
+                    <div class="tab-pane fade" id="synthesizeQuestion">
+                        <h3 class="text-primary">五、综合题（每题20分，共20分）</h3>
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group" id="synthesizeQuestionContent">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2" id="countPanel">
+            <ul class="list-group">
+                <li class="list-group-item">名词解释题<span style="margin-left:2em">0</span></li>
+                <li class="list-group-item">选择题<span style="margin-left: 4em">0</span></li>
+                <li class="list-group-item">简答题<span style="margin-left: 4em">0</span></li>
+                <li class="list-group-item">计算题<span style="margin-left: 4em">0</span></li>
+                <li class="list-group-item">综合题<span style="margin-left: 4em">0</span></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<button class="btn" id="paperPreview">试卷预览</button>
+
+<div class="paperPage">
+    <div id="paperHead">
+        <p style="margin:0pt; orphans:0; text-align:center; widows:0">
+            <span style="font-family:黑体; font-size:16pt; font-weight:bold">天津工业大学<u>&nbsp;&nbsp;计算机科学与软件学院&nbsp;&nbsp;</u></span>
+        </p>
+        <p></p>
+        <p style="margin:0pt; orphans:0; text-align:center; widows:0">
+            <span style="font-family:黑体; font-size:16pt; font-weight:bold">2016～2017学年第一学期<u>&nbsp;计算机组成原理&nbsp;</u>试卷</span>
+        </p>
+        <p></p>
+        <p style="margin:0pt; orphans:0; text-align:center;  widows:0">
+            <span style="font-family:宋体; font-size:14pt; font-weight:bold">班级<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>学号<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>姓名<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></span>
+        </p>
+        <p></p>
+        <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+            <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">注意事项： </span>
+        </p>
+        <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+            <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、本试卷试题共<u> 6 </u>页，满分为<u> 100 </u>分，考试时间为<u> 100 </u>分钟。</span>
+        </p>
+        <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+            <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、答题时请使用蓝、黑钢笔或圆珠笔，不得使用红颜色墨水笔。除特殊要<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求外不得使用铅笔。</span>
+        </p>
+        <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+            <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、将认为正确答案填写在后面的答题纸上。</span>
+        </p>
+        <p></p>
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-left:20.55pt; width:346.1pt">
+            <tr style="height:37.75pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1.5pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.65pt; padding-right:4.9pt; vertical-align:middle; width:39.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">题 目</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">一</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">二</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">三</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">四</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">五</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.25pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">总 分</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:1.5pt; padding-left:4.9pt; padding-right:4.65pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">分数<br>核对</span>
+                    </p>
+                </td>
+            </tr>
+
+            <tr style="height:22.5pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1.5pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.65pt; padding-right:4.9pt; vertical-align:middle; width:39.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">得 分</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="background-color:#d9d9d9; border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.65pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+
+            <tr style="height:22.5pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1.5pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.65pt; padding-right:4.9pt; vertical-align:middle; width:39.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">阅卷人</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span
+                                    style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span
+                                    style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span
+                                    style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span
+                                    style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span
+                                    style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.9pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                            <span
+                                    style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:1.5pt; border-left-color:#000000; border-left-style:solid; border-left-width:1pt; border-right-color:#000000; border-right-style:solid; border-right-width:1.5pt; border-top-color:#000000; border-top-style:solid; border-top-width:1pt; padding-left:4.9pt; padding-right:4.65pt; vertical-align:middle; width:31.3pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+        <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+            <span style="font-family:'Times New Roman'; font-size:12pt">&#xa0;</span>
+        </p>
+    </div>
+    <div id="explainHead">
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-left:0pt; width:82.58%">
+            <tr style="height:22.3pt">
+                <td rowspan="2"
+                    style="border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; vertical-align:middle; width:289.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">一、名词解释：（每题 1 分，共 10 分）</span>
+                    </p>
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">（说明：将认为正确答案填写在后面的答题纸上）</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">分数</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:21pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="paperExplain">
+
+    </div>
+    <div id="selectHead">
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-left:0pt; width:82.58%">
+            <tr style="height:22.3pt">
+                <td rowspan="2"
+                    style="border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; vertical-align:middle; width:289.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">二、选择题：（每题 1 分，共 30 分）</span>
+                    </p>
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">（说明：将认为正确答案填写在后面的答题纸上）</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">分数</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:21pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div id="paperSelect">
+
+    </div>
+    <div id="answerHead">
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-left:0pt; width:82.58%">
+            <tr style="height:22.3pt">
+                <td rowspan="2"
+                    style="border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt;  padding-right:5.03pt; vertical-align:middle; width:289.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">三、简答题：（每题 5 分，共 25 分）</span>
+                    </p>
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">（说明：将认为正确答案填写在后面的答题纸上）</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">分数</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:21pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div id="paperAnswer">
+
+    </div>
+    <div id="calculateHead">
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-left:0pt; width:82.58%">
+            <tr style="height:22.3pt">
+                <td rowspan="2"
+                    style="border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; vertical-align:middle; width:289.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">四、计算题：（每题 6 分，共 24 分）</span>
+                    </p>
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">（说明：将认为正确答案填写在后面的答题纸上）</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">分数</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:21pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div id="paperCalculate">
+
+    </div>
+    <div id="synthesizeHead">
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin-left:0pt; width:82.58%">
+            <tr style="height:22.3pt">
+                <td rowspan="2"
+                    style="border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; vertical-align:middle; width:289.45pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">五、综合题：（共 11 分）</span>
+                    </p>
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:宋体; font-size:10.5pt; font-weight:bold">（说明：将认为正确答案填写在后面的答题纸上）</span>
+                    </p>
+                </td>
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:middle; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:center; widows:0">
+                        <span style="font-family:宋体; font-size:12pt; font-weight:bold">分数</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:21pt">
+                <td style="border-bottom-color:#000000; border-bottom-style:solid; border-bottom-width:0.75pt; border-left-color:#000000; border-left-style:solid; border-left-width:0.75pt; border-right-color:#000000; border-right-style:solid; border-right-width:0.75pt; border-top-color:#000000; border-top-style:solid; border-top-width:0.75pt; padding-left:5.03pt; padding-right:5.03pt; vertical-align:top; width:38pt">
+                    <p style="line-height:18pt; margin:0pt; orphans:0; text-align:justify; widows:0">
+                        <span style="font-family:'Times New Roman'; font-size:12pt; font-weight:bold">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div id="paperSynthesize">
+
+    </div>
+</div>
+
+<button class="btn btn-warning" id="paperDownload">下载试卷</button>
+
+<script>
+    var unitSelectMenuData = [
+        {
+            text: "计算机系统概述",
+            id: 1,
+            state: {
+                expanded: true
+            },
+            nodes: [
+                {
+                    text: "1.1.2习题精选",
+                    id: 112
+                },
+                {
+                    text: "1.2.2习题精选",
+                    id: 122
+                },
+                {
+                    text: "1.3.2习题精选",
+                    id: 132
+                }
+            ]
+        },
+        {
+            text: "数据的表示和运算",
+            id: 2,
+            state: {
+                expanded: false
+            },
+            nodes: [
+                {
+                    text: "2.1.2习题精选",
+                    id: 212
+                },
+                {
+                    text: "2.2.2习题精选",
+                    id: 222
+                },
+                {
+                    text: "2.3.2习题精选",
+                    id: 232
+                },
+                {
+                    text: "2.4.2习题精选",
+                    id: 242
+
+                }
+            ]
+        },
+        {
+            text: "存储系统的层次结构",
+            id: 3,
+            state: {
+                expanded: false
+            },
+            nodes: [
+                {
+                    text: "3.1.2习题精选",
+                    id: 312
+                },
+                {
+                    text: "3.2.2习题精选",
+                    id: 322
+
+                },
+                {
+                    text: "3.3.2习题精选",
+                    id: 332
+
+                },
+                {
+                    text: "3.4.2习题精选",
+                    id: 342
+                },
+                {
+                    text: "3.5.2习题精选",
+                    id: 352
+
+                },
+                {
+                    text: "3.6.2习题精选",
+                    id: 362
+
+                },
+                {
+                    text: "3.7.2习题精选",
+                    id: 372
+
+                },
+                {
+                    text: "3.8.2习题精选",
+                    id: 382
+
+                }
+            ]
+        },
+        {
+            text: "指令系统",
+            id: 4,
+            state: {
+                expanded: false
+            },
+            nodes: [
+                {
+                    text: "4.1.2习题精选",
+                    id: 412
+
+                },
+                {
+                    text: "4.2.2习题精选",
+                    id: 422
+
+                },
+                {
+                    text: "4.3.2习题精选",
+                    id: 432
+
+                }
+            ]
+        },
+        {
+            text: "中央处理器",
+            id: 5,
+            state: {
+                expanded: false
+            },
+            nodes: [
+                {
+                    text: "5.1.2习题精选",
+                    id: 512
+
+                },
+                {
+                    text: "5.2.2习题精选",
+                    id: 522
+
+                },
+                {
+                    text: "5.3.2习题精选",
+                    id: 532
+
+                },
+                {
+                    text: "5.4.2习题精选",
+                    id: 542
+
+                },
+                {
+                    text: "5.5.2习题精选",
+                    id: 552
+
+                }
+            ]
+        },
+        {
+            text: "总线",
+            id: 6,
+            state: {
+                expanded: false
+            },
+            nodes: [
+                {
+                    text: "6.1.2习题精选",
+                    id: 612
+
+                },
+                {
+                    text: "6.2.2习题精选",
+                    id: 622
+
+                },
+                {
+                    text: "6.3.2习题精选",
+                    id: 632
+
+                },
+                {
+                    text: "6.4.2习题精选",
+                    id: 642
+
+                }
+            ]
+        },
+        {
+            text: "输入输出系统",
+            id: 7,
+            state: {
+                expanded: false
+            },
+            nodes: [
+                {
+                    text: "7.1.2习题精选",
+                    id: 712
+                },
+                {
+                    text: "7.2.2习题精选",
+                    id: 722
+                },
+                {
+                    text: "7.3.2习题精选",
+                    id: 732
+                },
+                {
+                    text: "7.4.2习题精选",
+                    id: 742
+                }
+            ]
+        }
+    ];
+
+    var sectionDisplayData = {
+        1: {
+            112: {
+                explainQuestion: {
+                    1: 'UML的中文全称是：',
+                    2: 'java对象最突出的特点是：'
+                },
+                selectQuestion: {
+                    1: {
+                        question: 'UML与软件工程的关系是：',
+                        options: {
+                            a: '(A)UML就是软件工程',
+                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
+                            c: '(C)UML与软件工程无关',
+                            d: '(D)UML是软件工程的一部分'
+                        }
+                    },
+                    2: {
+                        question: 'Java语言的支持：',
+                        options: {
+                            a: '(A)单继承',
+                            b: '(B)多继承',
+                            c: '(C)单继承和多继承都支持',
+                            d: '(D)单继承和多继承都不支持'
+                        }
+                    },
+                    3: {
+                        question: 'UML与软件工程的关系是：',
+                        options: {
+                            a: '(A)UML就是软件工程',
+                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
+                            c: '(C)UML与软件工程无关',
+                            d: '(D)UML是软件工程的一部分'
+                        }
+                    },
+                    4: {
+                        question: 'Java语言的支持：',
+                        options: {
+                            a: '(A)单继承',
+                            b: '(B)多继承',
+                            c: '(C)单继承和多继承都支持',
+                            d: '(D)单继承和多继承都不支持'
+                        }
+                    },
+                    5: {
+                        question: 'UML与软件工程的关系是：',
+                        options: {
+                            a: '(A)UML就是软件工程',
+                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
+                            c: '(C)UML与软件工程无关',
+                            d: '(D)UML是软件工程的一部分'
+                        }
+                    },
+                    6: {
+                        question: 'Java语言的支持：',
+                        options: {
+                            a: '(A)单继承',
+                            b: '(B)多继承',
+                            c: '(C)单继承和多继承都支持',
+                            d: '(D)单继承和多继承都不支持'
+                        }
+                    },
+                    7: {
+                        question: 'UML与软件工程的关系是：',
+                        options: {
+                            a: '(A)UML就是软件工程',
+                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
+                            c: '(C)UML与软件工程无关',
+                            d: '(D)UML是软件工程的一部分'
+                        }
+                    },
+                    8: {
+                        question: 'Java语言的支持：',
+                        options: {
+                            a: '(A)单继承',
+                            b: '(B)多继承',
+                            c: '(C)单继承和多继承都支持',
+                            d: '(D)单继承和多继承都不支持'
+                        }
+                    }
+                },
+                answerQuestion: {
+                    1: '简述什么是模型以及模型的表现形式？'
+                },
+                calculateQuestion: {
+                    1: '计算1+1'
+                },
+                synthesizeQuestion: {
+                    1: '这是一道综合题'
+                }
+            },
+            122: {
+                explainQuestion: 'explainQuestion1-2-2',
+                selectQuestion: 'selectQuestion1-2-2',
+                answerQuestion: 'answerQuestion1-2-2',
+                calculateQuestion: 'calculateQuestion1-2-2',
+                synthesizeQuestion: 'synthesizeQuestion1-2-2'
+            },
+            132: {
+                explainQuestion: 'explainQuestion1-3-2',
+                selectQuestion: 'selectQuestion1-3-2',
+                answerQuestion: 'answerQuestion1-3-2',
+                calculateQuestion: 'calculateQuestion1-3-2',
+                synthesizeQuestion: 'synthesizeQuestion1-3-2'
+            }
+        },
+        2: {
+            212: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            222: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            232: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            242: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+
+            }
+        },
+        3: {
+            312: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            322: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            332: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            342: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            352: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            362: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            372: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            382: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            }
+        },
+        4: {
+            section4_1_2: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            section4_2_2: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            section4_3_2: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            }
+        },
+        5: {
+            512: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            522: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            532: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            542: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            552: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            }
+        },
+        6: {
+            612: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            622: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            632: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            642: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            }
+        },
+        7: {
+            712: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            722: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            732: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            },
+            742: {
+                explainQuestion: 'explainQuestion',
+                selectQuestion: 'selectQuestion',
+                answerQuestion: 'answerQuestion',
+                calculateQuestion: 'calculateQuestion',
+                synthesizeQuestion: 'synthesizeQuestion'
+            }
+        }
+    };
+
+    var explainQuestionCount = 0;
+    var selectQuestionCount = 0;
+    var answerQuestionCount = 0;
+    var calculateQuestionCount = 0;
+    var synthesizeQuestionCount = 0;
+    $(".paperPage").hide();
+
+    function GenerateQuestion(questionContent, flag) {
+        switch (flag) {
+            case 'explainQuestion':
+                $.each(questionContent, function (questionNum, question) {
+                    var explainQuestionTemplate = `<div class="questionBox"><p class="form-control-static">${questionNum}．${question}</p>
+    <input type="text" class="form-control" style="width: 500px">
+    <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
+</div>`;
+                    $("#explainQuestionContent").append(explainQuestionTemplate);
+                });
+                break;
+
+            case 'selectQuestion':
+                $.each(questionContent, function (questionNum, question) {
+                    var selectQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question['question']}</p>
+    <div class="selectQuestionOption">
+        <div class="radio">${question['options']['a']}</div>
+        <div class="radio">${question['options']['b']}</div>
+        <div class="radio">${question['options']['c']}</div>
+        <div class="radio">${question['options']['d']}</div>
+    </div>
+    <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
+</div>`;
+                    $("#selectQuestionContent").append(selectQuestionTemplate);
+                });
+                break;
+
+            case 'answerQuestion':
+                $.each(questionContent, function (questionNum, question) {
+                    var answerQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question}</p>
+    <label>
+        <textarea class="form-control" rows="6" cols="70"></textarea>
+    </label>
+    <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
+</div>`;
+                    $("#answerQuestionContent").append(answerQuestionTemplate);
+                });
+                break;
+
+            case 'calculateQuestion':
+                $.each(questionContent, function (questionNum, question) {
+                    var calculateQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question}</p>
+    <label>
+        <textarea class="form-control" rows="6" cols="70"></textarea>
+    </label>
+    <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
+</div>`;
+                    $("#calculateQuestionContent").append(calculateQuestionTemplate);
+                });
+                break;
+
+            case 'synthesizeQuestion':
+                $.each(questionContent, function (questionNum, question) {
+                    var synthesizeQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question}</p>
+    <label>
+        <textarea class="form-control" rows="6" cols="70"></textarea>
+    </label>
+    <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
+</div>`;
+                    $("#synthesizeQuestionContent").append(synthesizeQuestionTemplate);
+                });
+                break;
+        }
+    }
+
+    function AddQuestion(that) {
+        var flag = $(that).parents('.form-group').attr('id');
+        switch (flag) {
+            case 'explainQuestionContent':
+                $("#paperExplain").append($(that).prevAll().eq(1).prop('outerHTML'));//prop('outerHTML')可以获取节点本身的html
+                $("#countPanel>ul>li:eq(0)>span").text(++explainQuestionCount);
+                break;
+
+            case 'selectQuestionContent':
+                $("#paperSelect").append($(that).prevAll().eq(1).prop('outerHTML'));
+                $("#paperSelect").append($(that).prevAll().eq(0).prop('outerHTML'));
+                $("#countPanel>ul>li:eq(1)>span").text(++selectQuestionCount);
+                break;
+
+            case 'answerQuestionContent':
+                $("#paperAnswer").append($(that).prevAll().eq(1).prop('outerHTML'));
+                $("#countPanel>ul>li:eq(2)>span").text(++answerQuestionCount);
+                break;
+
+            case 'calculateQuestionContent':
+                $("#paperCalculate").append($(that).prevAll().eq(1).prop('outerHTML'));
+                $("#countPanel>ul>li:eq(3)>span").text(++calculateQuestionCount);
+                break;
+
+            case 'synthesizeQuestionContent':
+                $("#paperSynthesize").append($(that).prevAll().eq(1).prop('outerHTML'));
+                $("#countPanel>ul>li:eq(4)>span").text(++synthesizeQuestionCount);
+                break;
+        }
+    }
+
+    function DeleteQuestion(that) {
+        var flag = $(that).parents('.form-group').attr('id');
+        var deleteContent = $(that).prevAll().eq(1).text();
+
+        switch (flag) {
+            case 'explainQuestionContent':
+                $("#paperExplain>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#countPanel>ul>li:eq(0)>span").text(--explainQuestionCount);
+
+                break;
+
+            case 'selectQuestionContent':
+                //选择题特殊，要删除题目和选项两部分，所以先获取题目
+                var deleteQ = $("#paperSelect>p").filter(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                deleteQ.next().remove();
+                deleteQ.remove();
+                $("#countPanel>ul>li:eq(1)>span").text(--selectQuestionCount);
+                break;
+
+            case 'answerQuestionContent':
+                $("#paperAnswer>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#countPanel>ul>li:eq(2)>span").text(--answerQuestionCount);
+                break;
+
+            case 'calculateQuestionContent':
+                $("#paperCalculate>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#countPanel>ul>li:eq(3)>span").text(--calculateQuestionCount);
+                break;
+
+            case 'synthesizeQuestionContent':
+                $("#paperSynthesize>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#countPanel>ul>li:eq(4)>span").text(--synthesizeQuestionCount);
+
+                break;
+        }
+    }
+
+    //题目添加不一定有序，更新题号
+    function RenewQuestionNum() {
+        $.each($("#paperExplain>p"), function (questionNum) {
+            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+        });
+        $.each($("#paperSelect>p"), function (questionNum) {
+            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+        });
+        $.each($("#paperAnswer>p"), function (questionNum) {
+            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+        });
+        $.each($("#paperCalculate>p"), function (questionNum) {
+            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+        });
+        $.each($("#paperSynthesize>p"), function (questionNum) {
+            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+        })
+    }
+
+    $('#unitSelectMenu').treeview({
+        data: unitSelectMenuData,         // 数据源
+        highlightSelected: true,    //是否高亮选中
+        nodeIcon: 'glyphicon glyphicon-th-list',    //节点上的图标
+        //节点展开时回调函数
+        onNodeExpanded: function (event, node) {
+            if (node.id > 0 && node.id < 10) {
+                $(".breadcrumb>li:eq(1)>a").text(node.text);
+                $(".breadcrumb>li:eq(2)").text();
+            }
+        },
+        //节点选择时回调函数
+        onNodeSelected: function (event, node) {
+            if (node.id > 0 && node.id < 10) {
+                $(".breadcrumb>li:eq(1)>a").text(node.text);
+                $(".breadcrumb>li:eq(2)").text('');
+            } else {
+                //设置面包屑导航
+                var parentNode = $('#unitSelectMenu').treeview('getParent', node.nodeId);
+                $(".breadcrumb>li:eq(1)>a").text(parentNode.text);
+                $(".breadcrumb>li:eq(2)").text(node.text);
+                try {
+                    //清空历史数据
+                    $("#explainQuestionContent").empty();
+                    $("#selectQuestionContent").empty();
+                    $("#answerQuestionContent").empty();
+                    $("#calculateQuestionContent").empty();
+                    $("#synthesizeQuestionContent").empty();
+                    //单元章节题目数据
+                    var questionData = sectionDisplayData[node.id.toString().substring(0, 1)][node.id];
+                    //生成各部分题目
+                    GenerateQuestion(questionData['explainQuestion'], 'explainQuestion');
+                    GenerateQuestion(questionData['selectQuestion'], 'selectQuestion');
+                    GenerateQuestion(questionData['answerQuestion'], 'answerQuestion');
+                    GenerateQuestion(questionData['calculateQuestion'], 'calculateQuestion');
+                    GenerateQuestion(questionData['synthesizeQuestion'], 'synthesizeQuestion');
+                    //题目框悬停特效
+                    $("div.questionBox").hover(function () {
+                        $(this).toggleClass('questionBoxOn')
+                    });
+                    //按钮切换
+                    $(".btn-primary").click(function () {
+                        $(this).toggleClass('btn-success');
+                        if ($(this).hasClass('btn-success')) {
+                            $(this).text('删除试题');
+                            AddQuestion(this);
+                        } else {
+                            $(this).text('添加试题');
+                            DeleteQuestion(this);
+                        }
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        }
+    });
+
+    $("#paperPreview").click(function () {
+        $(this).toggleClass('btn-success');
+        if ($(this).hasClass('btn-success')) {
+            $(this).text('返回选题');
+            RenewQuestionNum();
+            $('.container').hide();
+            $(".paperPage").show()
+        } else {
+            $(this).text('试卷预览');
+            $('.container').show();
+            $(".paperPage").hide()
+        }
+    });
+
+    $("#paperDownload").click(function () {
+        $(".paperPage").wordExport("计算机组成原理");
+    })
+
+</script>
+</body>
+</html>
