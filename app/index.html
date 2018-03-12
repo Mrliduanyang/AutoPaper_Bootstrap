@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>MakePaper</title>
     <script>
         window.nodeRequire = require;
         delete window.require;
@@ -36,7 +36,7 @@
             overflow: auto;
         }
 
-        .paperPage {
+        #paperPage {
             width: 16.4cm;
             height: 490px;
             overflow: auto;
@@ -45,15 +45,17 @@
         }
     </style>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
     <script src="https://cdn.bootcss.com/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+    <script src="https://cdn.bootcss.com/summernote/0.8.10/summernote.min.js"></script>
     <script src="js/wordexport.js"></script>
 </head>
 <body>
 <div class="container">
-    <div class="row">
+    <div class="row" id="chooseQuestion">
         <div class="col-sm-3">
             <div id="unitSelectMenu"></div>
         </div>
@@ -136,6 +138,8 @@
                     </div>
                 </div>
             </div>
+            <!--todo:添加试题-->
+            <div id="summernote"></div>
         </div>
         <div class="col-sm-2" id="countPanel">
             <ul class="list-group">
@@ -148,10 +152,16 @@
         </div>
 
     </div>
+    <div class="row">
+        <div class="btn-group">
+            <button type="button" class="btn" id="addNewQuestion">添加试题</button>
+            <button type="button" class="btn btn-default" id="paperPreview">试卷预览</button>
+            <button type="button" class="btn btn-warning" id="paperDownload">下载试卷</button>
+        </div>
+    </div>
 </div>
-<button class="btn" id="paperPreview">试卷预览</button>
 
-<div class="paperPage">
+<div id="paperPage">
     <div id="paperHead">
         <p style="margin:0pt; orphans:0; text-align:center; widows:0">
             <span style="font-family:黑体; font-size:16pt; font-weight:bold">天津工业大学<u>&nbsp;&nbsp;计算机科学与软件学院&nbsp;&nbsp;</u></span>
@@ -474,9 +484,6 @@
 
     </div>
 </div>
-
-<button class="btn btn-warning" id="paperDownload">下载试卷</button>
-
 <script>
     var unitSelectMenuData = [
         {
@@ -1009,7 +1016,6 @@
     var answerQuestionCount = 0;
     var calculateQuestionCount = 0;
     var synthesizeQuestionCount = 0;
-    $(".paperPage").hide();
 
     function GenerateQuestion(questionContent, flag) {
         switch (flag) {
@@ -1113,33 +1119,32 @@
 
         switch (flag) {
             case 'explainQuestionContent':
-                $("#paperExplain>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#paperExplain>p").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
                 $("#countPanel>ul>li:eq(0)>span").text(--explainQuestionCount);
 
                 break;
 
             case 'selectQuestionContent':
                 //选择题特殊，要删除题目和选项两部分，所以先获取题目
-                var deleteQ = $("#paperSelect>p").filter(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                var deleteQ = $("#paperSelect>p").filter(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
                 deleteQ.next().remove();
                 deleteQ.remove();
                 $("#countPanel>ul>li:eq(1)>span").text(--selectQuestionCount);
                 break;
 
             case 'answerQuestionContent':
-                $("#paperAnswer>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#paperAnswer>p").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
                 $("#countPanel>ul>li:eq(2)>span").text(--answerQuestionCount);
                 break;
 
             case 'calculateQuestionContent':
-                $("#paperCalculate>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#paperCalculate>p").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
                 $("#countPanel>ul>li:eq(3)>span").text(--calculateQuestionCount);
                 break;
 
             case 'synthesizeQuestionContent':
-                $("#paperSynthesize>p").remove(`:contains(${deleteContent.substring(1,deleteContent.length)})`);
+                $("#paperSynthesize>p").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
                 $("#countPanel>ul>li:eq(4)>span").text(--synthesizeQuestionCount);
-
                 break;
         }
     }
@@ -1162,6 +1167,10 @@
             $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
         })
     }
+
+    $("#paperPage").hide();
+    $("#paperDownload").hide();
+    $("#summernote").hide();
 
     $('#unitSelectMenu').treeview({
         data: unitSelectMenuData,         // 数据源
@@ -1220,23 +1229,44 @@
             }
         }
     });
+    $("#addNewQuestion").click(function () {
+        $(this).toggleClass('btn-success');
+        if ($(this).hasClass('btn-success')) {
+            $(this).text('返回选题');
+            $("#sectionDisplay").hide();
+            $("#summernote").summernote({
+                height: 427
+            });
+            // $("#summernote").show();
+        } else {
+            $(this).text('添加试题');
+            $("#sectionDisplay").show();
+            $('#summernote').summernote('destroy');
+            $("#summernote").empty();
+
+        }
+    });
 
     $("#paperPreview").click(function () {
         $(this).toggleClass('btn-success');
         if ($(this).hasClass('btn-success')) {
             $(this).text('返回选题');
             RenewQuestionNum();
-            $('.container').hide();
-            $(".paperPage").show()
+            $("#chooseQuestion").hide();
+            $("#addNewQuestion").hide();
+            $("#paperDownload").show();
+            $("#paperPage").show()
         } else {
             $(this).text('试卷预览');
-            $('.container').show();
-            $(".paperPage").hide()
+            $("#chooseQuestion").show();
+            $("#addNewQuestion").show();
+            $("#paperDownload").hide()
+            $("#paperPage").hide()
         }
     });
 
     $("#paperDownload").click(function () {
-        $(".paperPage").wordExport("计算机组成原理");
+        $("#paperPage").wordExport("计算机组成原理");
     })
 
 </script>
