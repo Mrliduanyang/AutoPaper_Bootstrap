@@ -4,7 +4,7 @@ const { BrowserWindow } = electron;
 let win;
 function createWindow() {
     // 创建窗口并加载页面
-    win = new BrowserWindow({width: 1200, height: 700});
+    win = new BrowserWindow({width: 1220, height: 700});
     win.loadURL(`file://${__dirname}/app/index.html`);
     win.setMenuBarVisibility(false);
 
