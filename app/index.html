@@ -44,14 +44,14 @@
             margin-right: auto;
         }
     </style>
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
-    <script src="https://cdn.bootcss.com/FileSaver.js/1.3.3/FileSaver.min.js"></script>
-    <script src="https://cdn.bootcss.com/summernote/0.8.10/summernote.min.js"></script>
-    <script src="js/wordexport.js"></script>
+    <link href="resource/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resource/summernote/summernote.css" rel="stylesheet">
+    <script src="resource/jQuery/jquery.min.js"></script>
+    <script src="resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="resource/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <script src="resource/wordexport/FileSaver.min.js"></script>
+    <script src="resource/summernote/summernote.min.js"></script>
+    <script src="resource/wordexport/wordexport.js"></script>
 </head>
 <body>
 <div class="container">
@@ -1151,19 +1151,19 @@
 
     //题目添加不一定有序，更新题号
     function RenewQuestionNum() {
-        $.each($("#paperExplain>p"), function (questionNum) {
+        $("#paperExplain>p").each(function (questionNum) {
             $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
         });
-        $.each($("#paperSelect>p"), function (questionNum) {
+        $("#paperSelect>p").each(function (questionNum) {
             $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
         });
-        $.each($("#paperAnswer>p"), function (questionNum) {
+        $("#paperAnswer>p").each(function (questionNum) {
             $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
         });
-        $.each($("#paperCalculate>p"), function (questionNum) {
+        $("#paperCalculate>p").each(function (questionNum) {
             $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
         });
-        $.each($("#paperSynthesize>p"), function (questionNum) {
+        $("#paperSynthesize>p").each(function (questionNum) {
             $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
         })
     }
@@ -1237,7 +1237,6 @@
             $("#summernote").summernote({
                 height: 427
             });
-            // $("#summernote").show();
         } else {
             $(this).text('添加试题');
             $("#sectionDisplay").show();
@@ -1260,7 +1259,7 @@
             $(this).text('试卷预览');
             $("#chooseQuestion").show();
             $("#addNewQuestion").show();
-            $("#paperDownload").hide()
+            $("#paperDownload").hide();
             $("#paperPage").hide()
         }
     });
