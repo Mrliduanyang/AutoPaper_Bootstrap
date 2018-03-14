@@ -138,8 +138,8 @@
                     </div>
                 </div>
             </div>
-            <!--todo:添加试题-->
-            <div id="summernote"></div>
+            <div id="questionEditor"></div>
+            <button type="button" class="btn btn-danger" id="addNewQuestion">添加试题</button>
         </div>
         <div class="col-sm-2" id="countPanel">
             <ul class="list-group">
@@ -154,7 +154,7 @@
     </div>
     <div class="row">
         <div class="btn-group">
-            <button type="button" class="btn" id="addNewQuestion">添加试题</button>
+            <button type="button" class="btn" id="showQuestionEditor">添加试题</button>
             <button type="button" class="btn btn-default" id="paperPreview">试卷预览</button>
             <button type="button" class="btn btn-warning" id="paperDownload">下载试卷</button>
         </div>
@@ -1017,6 +1017,57 @@
     var calculateQuestionCount = 0;
     var synthesizeQuestionCount = 0;
 
+    var unitMap = {
+        '计算机系统概述': 1,
+        '数据的表示和运算': 2,
+        '存储系统的层次结构': 3,
+        '指令系统': 4,
+        '中央处理器': 5,
+        '总线': 6,
+        '输入输出系统': 7
+    };
+
+    var sectionMap = {
+        '1.1.2习题精选': 112,
+        '1.2.2习题精选': 122,
+        '1.3.2习题精选': 132,
+        '2.1.2习题精选': 212,
+        '2.2.2习题精选': 222,
+        '2.3.2习题精选': 232,
+        '2.4.2习题精选': 242,
+        '3.1.2习题精选': 312,
+        '3.2.2习题精选': 322,
+        '3.3.2习题精选': 332,
+        '3.4.2习题精选': 342,
+        '3.5.2习题精选': 352,
+        '3.6.2习题精选': 362,
+        '3.7.2习题精选': 372,
+        '3.8.2习题精选': 382,
+        '4.1.2习题精选': 412,
+        '4.2.2习题精选': 422,
+        '4.3.2习题精选': 432,
+        '5.1.2习题精选': 512,
+        '5.2.2习题精选': 522,
+        '5.3.2习题精选': 532,
+        '5.4.2习题精选': 542,
+        '5.5.2习题精选': 552,
+        '6.1.2习题精选': 612,
+        '6.2.2习题精选': 622,
+        '6.3.2习题精选': 632,
+        '6.4.2习题精选': 642,
+        '7.1.2习题精选': 712,
+        '7.2.2习题精选': 722,
+        '7.3.2习题精选': 732,
+        '7.4.2习题精选': 742
+    };
+    var questionTypeMap = {
+        0: 'explainQuestion',
+        1: 'selectQuestion',
+        2: 'answerQuestion',
+        3: 'calculateQuestion',
+        4: 'synthesizeQuestion'
+    }
+
     function GenerateQuestion(questionContent, flag) {
         switch (flag) {
             case 'explainQuestion':
@@ -1168,10 +1219,33 @@
         })
     }
 
+    function AddNewQuestion() {
+        //    todo:
+        var unit=unitMap[$(".breadcrumb>li:eq(1)>a").text()];
+        var section=sectionMap[$(".breadcrumb>li:eq(2)").text()];
+        var type=questionTypeMap[$("#sectionDisplayTab>li").index($("#sectionDisplayTab>li").filter('.active'))]
+        var flag = $("#sectionDisplayTab>li").index($("#sectionDisplayTab>li").filter('.active'));
+        console.log(unit,section,type);
+        switch (flag) {
+            case 0:
+                console.log()
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+
+        }
+    }
+
     $("#paperPage").hide();
     $("#paperDownload").hide();
-    $("#summernote").hide();
-
+    $("#questionEditor").hide();
+    $("#addNewQuestion").hide();
     $('#unitSelectMenu').treeview({
         data: unitSelectMenuData,         // 数据源
         highlightSelected: true,    //是否高亮选中
@@ -1229,39 +1303,60 @@
             }
         }
     });
-    $("#addNewQuestion").click(function () {
-        $(this).toggleClass('btn-success');
-        if ($(this).hasClass('btn-success')) {
+
+    $("#showQuestionEditor").click(function () {
+        $(this).toggleClass('btn-warning');
+        if ($(this).hasClass('btn-warning')) {
             $(this).text('返回选题');
-            $("#sectionDisplay").hide();
-            $("#summernote").summernote({
-                height: 427
+            $("#sectionDisplay>div").hide();
+            $("#questionEditor").summernote({
+                fontNames: ['宋体'],
+                height: 360
             });
+            $("#addNewQuestion").show();
         } else {
             $(this).text('添加试题');
-            $("#sectionDisplay").show();
-            $('#summernote').summernote('destroy');
-            $("#summernote").empty();
-
+            $("#sectionDisplay>div").show();
+            $("#questionEditor").summernote('destroy');
+            $("#questionEditor").empty();
+            $("#addNewQuestion").hide();
         }
     });
 
     $("#paperPreview").click(function () {
-        $(this).toggleClass('btn-success');
-        if ($(this).hasClass('btn-success')) {
+        $(this).toggleClass('btn-warning');
+        if ($(this).hasClass('btn-warning')) {
             $(this).text('返回选题');
             RenewQuestionNum();
             $("#chooseQuestion").hide();
-            $("#addNewQuestion").hide();
+            $("#showQuestionEditor").hide();
             $("#paperDownload").show();
             $("#paperPage").show()
         } else {
             $(this).text('试卷预览');
             $("#chooseQuestion").show();
-            $("#addNewQuestion").show();
+            $("#showQuestionEditor").show();
             $("#paperDownload").hide();
             $("#paperPage").hide()
         }
+    });
+
+    $("#addNewQuestion").click(function () {
+        //todo:添加试题
+        AddNewQuestion();
+        // var writeContent = '';
+        // var fs = nodeRequire('fs');
+        // var markupStr = $('#summernote').summernote('code');
+        // $(markupStr).each(function () {
+        //     if ($(this).text() != '') {
+        //         writeContent += $(this).text()
+        //     }
+        // });
+        // fs.writeFileSync(
+        //     'data.json',
+        //     JSON.stringify(sectionDisplayData),
+        //     'utf8'
+        // );
     });
 
     $("#paperDownload").click(function () {
