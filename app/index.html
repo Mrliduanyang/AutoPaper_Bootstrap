@@ -10,6 +10,11 @@
         delete window.module;
     </script>
     <style>
+        pre{
+            white-space: pre-wrap;
+            background-color: #ffffff;
+            border: 0px;
+        }
         .questionBox {
             padding: 5px;
             margin: 5px;
@@ -484,6 +489,8 @@
 
     </div>
 </div>
+
+
 <script>
     var unitSelectMenuData = [
         {
@@ -702,78 +709,11 @@
                     2: 'java对象最突出的特点是：'
                 },
                 selectQuestion: {
-                    1: {
-                        question: 'UML与软件工程的关系是：',
-                        options: {
-                            a: '(A)UML就是软件工程',
-                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
-                            c: '(C)UML与软件工程无关',
-                            d: '(D)UML是软件工程的一部分'
-                        }
-                    },
-                    2: {
-                        question: 'Java语言的支持：',
-                        options: {
-                            a: '(A)单继承',
-                            b: '(B)多继承',
-                            c: '(C)单继承和多继承都支持',
-                            d: '(D)单继承和多继承都不支持'
-                        }
-                    },
-                    3: {
-                        question: 'UML与软件工程的关系是：',
-                        options: {
-                            a: '(A)UML就是软件工程',
-                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
-                            c: '(C)UML与软件工程无关',
-                            d: '(D)UML是软件工程的一部分'
-                        }
-                    },
-                    4: {
-                        question: 'Java语言的支持：',
-                        options: {
-                            a: '(A)单继承',
-                            b: '(B)多继承',
-                            c: '(C)单继承和多继承都支持',
-                            d: '(D)单继承和多继承都不支持'
-                        }
-                    },
-                    5: {
-                        question: 'UML与软件工程的关系是：',
-                        options: {
-                            a: '(A)UML就是软件工程',
-                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
-                            c: '(C)UML与软件工程无关',
-                            d: '(D)UML是软件工程的一部分'
-                        }
-                    },
-                    6: {
-                        question: 'Java语言的支持：',
-                        options: {
-                            a: '(A)单继承',
-                            b: '(B)多继承',
-                            c: '(C)单继承和多继承都支持',
-                            d: '(D)单继承和多继承都不支持'
-                        }
-                    },
-                    7: {
-                        question: 'UML与软件工程的关系是：',
-                        options: {
-                            a: '(A)UML就是软件工程',
-                            b: '(B)UML参与到软件工程中软件开发过程的几个阶段',
-                            c: '(C)UML与软件工程无关',
-                            d: '(D)UML是软件工程的一部分'
-                        }
-                    },
-                    8: {
-                        question: 'Java语言的支持：',
-                        options: {
-                            a: '(A)单继承',
-                            b: '(B)多继承',
-                            c: '(C)单继承和多继承都支持',
-                            d: '(D)单继承和多继承都不支持'
-                        }
-                    }
+                    1:'关于CPU主频、CPI、MIPS、MFLOPS，说法正确的是(    )。\n' +
+                    'A．CPU主频是指CPU系统执行指令的频率．CPI是执行一条指令平均使用的频率\n' +
+                    'B．CPI是执行一条指令平均使用CPU时钟的个数．MIPS描述一条CPU指令平均使用CPU时钟数\n' +
+                    'C．MIPS是描述CPU执行指令的频率．MFLOPS是计算机系统的浮点数指令\n' +
+                    'D．CPU主频指CPU使用的时钟脉冲频率，CPI是执行一条指令平均使用CPU时钟数\n'
                 },
                 answerQuestion: {
                     1: '简述什么是模型以及模型的表现形式？'
@@ -787,11 +727,189 @@
             },
             122: {
                 explainQuestion: 'explainQuestion1-2-2',
-                selectQuestion: 'selectQuestion1-2-2',
-                answerQuestion: 'answerQuestion1-2-2',
-                calculateQuestion: 'calculateQuestion1-2-2',
-                synthesizeQuestion: 'synthesizeQuestion1-2-2'
-            },
+                selectQuestion: {
+                    1: {
+                        question: '完整的计算机系统应包括(    )。',
+                        options: {
+                            a: 'A．运算器、存储器、控制器',
+                            b: 'B．外部设备和主机',
+                            c: 'C．主机和应用程序',
+                            d: 'D．配套的硬件设备和软件系统'
+                        }
+                    },
+                    2: {
+                        question: '冯·诺依曼机的基本工作方式是(    )。',
+                        options: {
+                            a: 'A．控制流驱动方式',
+                            b: 'B．多指令多数据流方式',
+                            c: 'C．微程序控制方式',
+                            d: 'D．数据流驱动方式'
+                        }
+                    },
+                    3: {
+                        question: '在CPU中，跟踪下一条要执行的指令的地址的寄存器是(    )',
+                        options: {
+                            a: 'A．PC',
+                            b: 'B．MAR',
+                            c: 'C．MDR',
+                            d: 'D．IR'
+                        }
+                    },
+                    4: {
+                        question: 'CPU不包括(    )。',
+                        options: {
+                            a: 'A．地址寄存器',
+                            b: 'B．指令寄存器(IR)',
+                            c: 'C．地址译码器',
+                            d: 'D．通用寄存器'
+                        }
+                    },
+                    5: {
+                        question: '在运算器中，不包含(    )。',
+                        options: {
+                            a: 'A．状态寄存器',
+                            b: 'B．数据总线',
+                            c: 'C．ALU',
+                            d: 'D．地址寄存器'
+                        }
+                    },
+                    6: {
+                        question: '下列(    )属于应用软件。',
+                        options: {
+                            a: 'A．操作系统',
+                            b: 'B．编译程序',
+                            c: 'C．连接程序',
+                            d: 'D．文本处理'
+                        }
+                    },
+                    7: {
+                        question: '一个8位的计算机系统以16位来表示地址，则该计算机系统有(    )个地址空间。',
+                        options: {
+                            a: 'A．256',
+                            b: 'B．65535',
+                            c: 'C．65536',
+                            d: 'D．131072'
+                        }
+                    },
+                    8: {
+                        question: '计算机系统的层次结构可以分为6层，其层次之间的依存关系是(    )。',
+                        options: {
+                            a: 'A．上下层之间相互无关',
+                            b: 'B．上层实现对下层的功能扩展，而下层是实现上层的基础',
+                            c: 'C．上层实现对下层的扩展作用，而下层对上层有限制作用',
+                            d: 'D．上层和下层的关系是相互依存、不可分割的'
+                        }
+                    },
+                    9: {
+                        question: '【2009年计算机联考真题】冯·诺依曼计算机中指令和数据均以二进制形式存放在存储器中．CPU区分它们的依据是(    )。',
+                        options: {
+                            a: 'A．指令操作码的译码结果',
+                            b: 'B．指令和数据的寻址方式',
+                            c: 'C．指令周期的不同阶段',
+                            d: 'D．指令和数据所在的存储单元'
+                        }
+                    },
+                    10: {
+                        question: '下列为CPU存取速度的比较，正确的是(    )。',
+                        options: {
+                            a: 'A．Cache>内存>寄存器',
+                            b: 'B．Cache>寄存器>内存',
+                            c: 'C．寄存器>Cache>内存',
+                            d: 'D．寄存器>内存>Cache'
+                        }
+                    },
+                    11: {
+                        question: '关于编译程序和解释程序，下面说法错误的是(    )。',
+                        options: {
+                            a: 'A．编译程序和解释程序的作用都是将高级语言程序转换成机器语言程序',
+                            b: 'B．编译程序编译时问较长，运行速度较快',
+                            c: 'C．解释程序方法较简单，运行速度也较快',
+                            d: 'D．解释程序将源程序翻译成机器语言，并且翻译一条以后，立即执行这条语句'
+                        }
+                    },
+                    12: {
+                        question: '下列叙述中正确的是(    )。',
+                        options: {
+                            a: 'A．寄存器的设置对汇编语言是透明的',
+                            b: 'B．实际应用程序的测试结果能够全面代表计算机的性能\n',
+                            c: 'C．系列机的基本特性是指令系统向后兼容\n',
+                            d: 'D．软件和硬件在逻辑功能上是等价的'
+                        }
+                    },
+                    13: {
+                        question: '下列(    )是冯·诺依曼机工作方式的基本特点。',
+                        options: {
+                            a: 'A．多指令流单数据流',
+                            b: 'B．按地址访问并顺序执行指令',
+                            c: 'C．堆栈操作',
+                            d: 'D．存储器按内容选择地址'
+                        }
+                    },
+                    14: {
+                        question: '存放欲执行指令的寄存器是(    )。',
+                        options: {
+                            a: 'A．MAR',
+                            b: 'B．PC',
+                            c: 'C．MDR',
+                            d: 'D．IR'
+                        }
+                    },
+                    15: {
+                        question: '指令流通常是(    )。',
+                        options: {
+                            a: 'A．从主存流向控制器',
+                            b: 'B．从控制器流向主存',
+                            c: 'C．从控制器流向控制器',
+                            d: 'D．从主存流向主存'
+                        }
+                    },
+                    16: {
+                        question: '以下说法错误的是(    )。',
+                        options: {
+                            a: 'A．硬盘是外部设备',
+                            b: 'B．软件的功能与硬件的功能在逻辑上是等效的',
+                            c: 'C．硬件实现的功能一般比软件实现具有更高的执行速度',
+                            d: 'D．软件的功能不能用硬件取代'
+                        }
+                    },
+                    17: {
+                        question: '在CPU的组成中，不包括(    )。',
+                        options: {
+                            a: 'A．运算器',
+                            b: 'B．存储器',
+                            c: 'C．控制器',
+                            d: 'D．寄存器'
+                        }
+                    },
+                    18: {
+                        question: '下列(    )不属于系统程序。',
+                        options: {
+                            a: 'A．数据库系统',
+                            b: 'B．操作系统',
+                            c: 'C．编译程序',
+                            d: 'D．以上3种都属于系统程序'
+                        }
+                    },
+                    19: {
+                        question: '关于相连存储器，下列说法正确的是(    )。',
+                        options: {
+                            a: 'A．只可以按地址寻址',
+                            b: 'B．只可以按内容寻址',
+                            c: 'C．既可以按地址寻址又可以按内容寻址',
+                            d: 'D．以上说法均不完善'
+                        }
+                    },
+                    20: {
+                        question: '(    )是程序运行时的存储位置，包括所需的数据。',
+                        options: {
+                            a: 'A．数据通路',
+                            b: 'B．主存',
+                            c: 'C．硬盘',
+                            d: 'D．操作系统'
+                        }
+                    }
+                },
+
             132: {
                 explainQuestion: 'explainQuestion1-3-2',
                 selectQuestion: 'selectQuestion1-3-2',
@@ -1009,7 +1127,8 @@
                 synthesizeQuestion: 'synthesizeQuestion'
             }
         }
-    };
+    }
+};
 
     var explainQuestionCount = 0;
     var selectQuestionCount = 0;
@@ -1071,7 +1190,7 @@
         switch (flag) {
             case 'explainQuestion':
                 $.each(questionContent, function (questionNum, question) {
-                    var explainQuestionTemplate = `<div class="questionBox"><p class="form-control-static">${questionNum}．${question}</p>
+                    var explainQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
     <input type="text" class="form-control" style="width: 500px">
     <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
 </div>`;
@@ -1081,13 +1200,7 @@
 
             case 'selectQuestion':
                 $.each(questionContent, function (questionNum, question) {
-                    var selectQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question['question']}</p>
-    <div class="selectQuestionOption">
-        <div class="radio">${question['options']['a']}</div>
-        <div class="radio">${question['options']['b']}</div>
-        <div class="radio">${question['options']['c']}</div>
-        <div class="radio">${question['options']['d']}</div>
-    </div>
+                    var selectQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
     <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
 </div>`;
                     $("#selectQuestionContent").append(selectQuestionTemplate);
@@ -1096,7 +1209,7 @@
 
             case 'answerQuestion':
                 $.each(questionContent, function (questionNum, question) {
-                    var answerQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question}</p>
+                    var answerQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
     <label>
         <textarea class="form-control" rows="6" cols="70"></textarea>
     </label>
@@ -1108,7 +1221,7 @@
 
             case 'calculateQuestion':
                 $.each(questionContent, function (questionNum, question) {
-                    var calculateQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question}</p>
+                    var calculateQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
     <label>
         <textarea class="form-control" rows="6" cols="70"></textarea>
     </label>
@@ -1120,7 +1233,7 @@
 
             case 'synthesizeQuestion':
                 $.each(questionContent, function (questionNum, question) {
-                    var synthesizeQuestionTemplate = `<div class="questionBox"><p>${questionNum}．${question}</p>
+                    var synthesizeQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
     <label>
         <textarea class="form-control" rows="6" cols="70"></textarea>
     </label>
@@ -1141,7 +1254,6 @@
                 break;
 
             case 'selectQuestionContent':
-                $("#paperSelect").append($(that).prevAll().eq(1).prop('outerHTML'));
                 $("#paperSelect").append($(that).prevAll().eq(0).prop('outerHTML'));
                 $("#countPanel>ul>li:eq(1)>span").text(++selectQuestionCount);
                 break;
@@ -1276,11 +1388,11 @@
                     //单元章节题目数据
                     var questionData = sectionDisplayData[node.id.toString().substring(0, 1)][node.id];
                     //生成各部分题目
-                    GenerateQuestion(questionData['explainQuestion'], 'explainQuestion');
+                    // GenerateQuestion(questionData['explainQuestion'], 'explainQuestion');
                     GenerateQuestion(questionData['selectQuestion'], 'selectQuestion');
-                    GenerateQuestion(questionData['answerQuestion'], 'answerQuestion');
-                    GenerateQuestion(questionData['calculateQuestion'], 'calculateQuestion');
-                    GenerateQuestion(questionData['synthesizeQuestion'], 'synthesizeQuestion');
+                    // GenerateQuestion(questionData['answerQuestion'], 'answerQuestion');
+                    // GenerateQuestion(questionData['calculateQuestion'], 'calculateQuestion');
+                    // GenerateQuestion(questionData['synthesizeQuestion'], 'synthesizeQuestion');
                     //题目框悬停特效
                     $("div.questionBox").hover(function () {
                         $(this).toggleClass('questionBoxOn')
