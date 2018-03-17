@@ -900,27 +900,38 @@
         })
     }
 
-    function AddNewQuestion() {
-        //    todo:
+    function AddNewQuestion(questionData) {
         var unit = unitMap[$(".breadcrumb>li:eq(1)>a").text()];
         var section = sectionMap[$(".breadcrumb>li:eq(2)").text()];
-        var type = questionTypeMap[$("#sectionDisplayTab>li").index($("#sectionDisplayTab>li").filter('.active'))]
-        var flag = $("#sectionDisplayTab>li").index($("#sectionDisplayTab>li").filter('.active'));
-        console.log(unit, section, type);
-        switch (flag) {
-            case 0:
-                console.log()
+        var type = questionTypeMap[$("#sectionDisplayTab>li").index($("#sectionDisplayTab>li").filter('.active'))];
+        var addQuestionContent = $($("#questionEditor").summernote('code')).text();
+        switch (type) {
+            case 'explainQuestion':
+                var num = $("#explainQuestionContent").children('.questionBox').length + 1;
+                questionData[unit][section][type][num] = addQuestionContent;
                 break;
-            case 1:
+            case 'selectQuestion':
+                var num = $("#selectQuestionContent").children('.questionBox').length + 1;
+                questionData[unit][section][type][num] = addQuestionContent;
                 break;
-            case 2:
+            case 'answerQuestion':
+                var num = $("#answerQuestionContent").children('.questionBox').length + 1;
+                questionData[unit][section][type][num] = addQuestionContent;
                 break;
-            case 3:
+            case 'calculateQuestion':
+                var num = $("#calculateQuestionContent").children('.questionBox').length + 1;
+                questionData[unit][section][type][num] = addQuestionContent;
                 break;
-            case 4:
+            case 'synthesizeQuestion':
+                var num = $("#synthesizeQuestionContent").children('.questionBox').length + 1;
+                questionData[unit][section][type][num] = addQuestionContent;
                 break;
-
         }
+        fs.writeFileSync(
+            'app/data.json',
+            JSON.stringify(questionData),
+            'utf8'
+        );
     }
 
     $("#paperPage").hide();
@@ -1023,21 +1034,7 @@
     });
 
     $("#addNewQuestion").click(function () {
-        //todo:添加试题
-        // AddNewQuestion();
-        // var writeContent = '';
-        var fs = nodeRequire('fs');
-        // var markupStr = $('#summernote').summernote('code');
-        // $(markupStr).each(function () {
-        //     if ($(this).text() != '') {
-        //         writeContent += $(this).text()
-        //     }
-        // });
-        fs.writeFileSync(
-            'data.json',
-            JSON.stringify(sectionDisplayData),
-            'utf8'
-        );
+        AddNewQuestion(sectionDisplayData);
     });
 
     $("#paperDownload").click(function () {
