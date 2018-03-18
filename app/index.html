@@ -490,8 +490,8 @@
 
 <script>
     var fs = nodeRequire('fs');
-    var file = "app/data/data.json";
-    var sectionDisplayData = JSON.parse(fs.readFileSync(file));
+    var filePath = "resources/data/data.json";
+    var sectionDisplayData = JSON.parse(fs.readFileSync(filePath));
 
     var unitSelectMenuData = [
         {
@@ -928,7 +928,7 @@
                 break;
         }
         fs.writeFileSync(
-            'app/data.json',
+            'resources/data/data.json',
             JSON.stringify(questionData),
             'utf8'
         );
