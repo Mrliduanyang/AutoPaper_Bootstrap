@@ -490,8 +490,9 @@
 
 <script>
     var fs = nodeRequire('fs');
-    var filePath = "resources/data/data.json";
-    var sectionDisplayData = JSON.parse(fs.readFileSync(filePath));
+    var path = nodeRequire('path');
+    var filePath = "data/data.json";
+    var sectionDisplayData = JSON.parse(fs.readFileSync(path.resolve(__dirname, filePath)));
 
     var unitSelectMenuData = [
         {
