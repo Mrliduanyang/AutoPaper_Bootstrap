@@ -2,7 +2,7 @@
 ## 一个自动组卷系统
 系统整体基于Electron开发，整体布局采用Bootstrap4，各部分功能实现依赖于jQuery。
 ## 运行方式
-1.安装并配置Electron，启动Electron，将项目整体文件夹拖入Electron中即可。
+1.安装并配置Electron，启动Electron，将项目整体文件夹拖入Electron中即可。\
 2.将项目整体文件夹重命名为app，并放入Electron的resources文件中，返回上级菜单，双击electron.exe即可启动。
 ## 项目结构说明
 >Autopaper_Bootstrap
