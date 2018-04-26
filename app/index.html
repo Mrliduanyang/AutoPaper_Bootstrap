@@ -85,7 +85,7 @@
                 <div id="sectionDisplayContent" class="tab-content">
                     <!--名词解释-->
                     <div class="tab-pane fade in active" id="explainQuestion">
-                        <h3 class="text-primary">一、填空题（每空5分，共20分）</h3>
+                        <h3 class="text-primary">一、名词解释</h3>
                         <div class="col-md-12">
                             <form>
                                 <div class="form-group" id="explainQuestionContent">
@@ -96,7 +96,7 @@
                     </div>
                     <!--选择题-->
                     <div class="tab-pane fade" id="selectQuestion">
-                        <h3 class="text-primary">二、选择题（每空10分，共20分）</h3>
+                        <h3 class="text-primary">二、选择题</h3>
                         <div class="col-md-12">
                             <form>
                                 <div class="form-group" id="selectQuestionContent">
@@ -107,7 +107,7 @@
                     </div>
                     <!--简答题-->
                     <div class="tab-pane fade" id="answerQuestion">
-                        <h3 class="text-primary">三、简答题（每题20分，共20分）</h3>
+                        <h3 class="text-primary">三、简答题</h3>
                         <div class="col-md-12">
                             <form>
                                 <div class="form-group" id="answerQuestionContent">
@@ -118,7 +118,7 @@
                     </div>
                     <!--计算题-->
                     <div class="tab-pane fade" id="calculateQuestion">
-                        <h3 class="text-primary">四、计算题（每题20分，共20分）</h3>
+                        <h3 class="text-primary">四、计算题</h3>
                         <div class="col-md-12">
                             <form>
                                 <div class="form-group" id="calculateQuestionContent">
@@ -129,7 +129,7 @@
                     </div>
                     <!--综合题-->
                     <div class="tab-pane fade" id="synthesizeQuestion">
-                        <h3 class="text-primary">五、综合题（每题20分，共20分）</h3>
+                        <h3 class="text-primary">五、综合题</h3>
                         <div class="col-md-12">
                             <form>
                                 <div class="form-group" id="synthesizeQuestionContent">
@@ -493,7 +493,6 @@
     var path = nodeRequire('path');
     var filePath = "data/data.json";
     var sectionDisplayData = JSON.parse(fs.readFileSync(path.resolve(__dirname, filePath)));
-
     var unitSelectMenuData = [
         {
             text: "计算机系统概述",
@@ -764,7 +763,6 @@
             case 'explainQuestion':
                 $.each(questionContent, function (questionNum, question) {
                     var explainQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
-    <input type="text" class="form-control" style="width: 500px">
     <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
 </div>`;
                     $("#explainQuestionContent").append(explainQuestionTemplate);
@@ -783,9 +781,6 @@
             case 'answerQuestion':
                 $.each(questionContent, function (questionNum, question) {
                     var answerQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
-    <label>
-        <textarea class="form-control" rows="6" cols="70"></textarea>
-    </label>
     <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
 </div>`;
                     $("#answerQuestionContent").append(answerQuestionTemplate);
@@ -795,9 +790,6 @@
             case 'calculateQuestion':
                 $.each(questionContent, function (questionNum, question) {
                     var calculateQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
-    <label>
-        <textarea class="form-control" rows="6" cols="70"></textarea>
-    </label>
     <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
 </div>`;
                     $("#calculateQuestionContent").append(calculateQuestionTemplate);
@@ -807,9 +799,6 @@
             case 'synthesizeQuestion':
                 $.each(questionContent, function (questionNum, question) {
                     var synthesizeQuestionTemplate = `<div class="questionBox"><pre style="border: 0px;background-color: #ffffff">${questionNum}．${question}</pre>
-    <label>
-        <textarea class="form-control" rows="6" cols="70"></textarea>
-    </label>
     <button type="button" class="btn btn-primary addQuestionButton">添加试题</button>
 </div>`;
                     $("#synthesizeQuestionContent").append(synthesizeQuestionTemplate);
@@ -820,29 +809,31 @@
 
     function AddQuestion(that) {
         var flag = $(that).parents('.form-group').attr('id');
+        var addContent = $(that).prev().prop('outerHTML');
+        console.log(addContent);
         switch (flag) {
             case 'explainQuestionContent':
-                $("#paperExplain").append($(that).prevAll().eq(1).prop('outerHTML'));//prop('outerHTML')可以获取节点本身的html
+                $("#paperExplain").append(addContent);//prop('outerHTML')可以获取节点本身的html
                 $("#countPanel>ul>li:eq(0)>span").text(++explainQuestionCount);
                 break;
 
             case 'selectQuestionContent':
-                $("#paperSelect").append($(that).prevAll().eq(0).prop('outerHTML'));
+                $("#paperSelect").append(addContent);
                 $("#countPanel>ul>li:eq(1)>span").text(++selectQuestionCount);
                 break;
 
             case 'answerQuestionContent':
-                $("#paperAnswer").append($(that).prevAll().eq(1).prop('outerHTML'));
+                $("#paperAnswer").append(addContent);
                 $("#countPanel>ul>li:eq(2)>span").text(++answerQuestionCount);
                 break;
 
             case 'calculateQuestionContent':
-                $("#paperCalculate").append($(that).prevAll().eq(1).prop('outerHTML'));
+                $("#paperCalculate").append(addContent);
                 $("#countPanel>ul>li:eq(3)>span").text(++calculateQuestionCount);
                 break;
 
             case 'synthesizeQuestionContent':
-                $("#paperSynthesize").append($(that).prevAll().eq(1).prop('outerHTML'));
+                $("#paperSynthesize").append(addContent);
                 $("#countPanel>ul>li:eq(4)>span").text(++synthesizeQuestionCount);
                 break;
         }
@@ -850,54 +841,52 @@
 
     function DeleteQuestion(that) {
         var flag = $(that).parents('.form-group').attr('id');
-        var deleteContent = $(that).prevAll().eq(1).text();
-
+        var deleteContent = $(that).prev().html();
         switch (flag) {
             case 'explainQuestionContent':
-                $("#paperExplain>pre").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
+                $("#paperExplain>pre").remove(`:contains(${deleteContent.substring(2, 4)})`);
                 $("#countPanel>ul>li:eq(0)>span").text(--explainQuestionCount);
-
                 break;
 
             case 'selectQuestionContent':
-                //选择题特殊，要删除题目和选项两部分，所以先获取题目
-                $("#paperSelect>pre").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
+                $("#paperSelect>pre").remove(`:contains(${deleteContent.substring(2, 7)})`);
                 $("#countPanel>ul>li:eq(1)>span").text(--selectQuestionCount);
                 break;
 
             case 'answerQuestionContent':
-                $("#paperAnswer>pre").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
+                $("#paperAnswer>pre").remove(`:contains(${deleteContent.substring(2, 7)})`);
                 $("#countPanel>ul>li:eq(2)>span").text(--answerQuestionCount);
                 break;
 
             case 'calculateQuestionContent':
-                $("#paperCalculate>pre").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
+                $("#paperCalculate>pre").remove(`:contains(${deleteContent.substring(2, 7)})`);
                 $("#countPanel>ul>li:eq(3)>span").text(--calculateQuestionCount);
                 break;
 
             case 'synthesizeQuestionContent':
-                $("#paperSynthesize>pre").remove(`:contains(${deleteContent.substring(1, deleteContent.length)})`);
+                $("#paperSynthesize>pre").remove(`:contains(${deleteContent.substring(2, 7)})`);
+                console.log(deleteContent.substring(2, 7));
                 $("#countPanel>ul>li:eq(4)>span").text(--synthesizeQuestionCount);
                 break;
         }
     }
 
-    //题目添加不一定有序，更新题号
+    //题目添加不一定有序，更新题号，使用了正则判断，修改题号。
     function RenewQuestionNum() {
         $("#paperExplain>pre").each(function (questionNum) {
-            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+            $(this).html($(this).html().replace(/\d+/, questionNum + 1))
         });
         $("#paperSelect>pre").each(function (questionNum) {
-            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+            $(this).html($(this).html().replace(/\d+/, questionNum + 1))
         });
         $("#paperAnswer>pre").each(function (questionNum) {
-            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+            $(this).html($(this).html().replace(/\d+/, questionNum + 1))
         });
         $("#paperCalculate>pre").each(function (questionNum) {
-            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+            $(this).html($(this).html().replace(/\d+/, questionNum + 1))
         });
         $("#paperSynthesize>pre").each(function (questionNum) {
-            $(this).text($(this).text().replace($(this).text().substring(0, 1), questionNum + 1))
+            $(this).html($(this).html().replace(/\d+/, questionNum + 1))
         })
     }
 
@@ -970,11 +959,36 @@
                     //单元章节题目数据
                     var questionData = sectionDisplayData[node.id.toString().substring(0, 1)][node.id];
                     //生成各部分题目
-                    // GenerateQuestion(questionData['explainQuestion'], 'explainQuestion');
-                    GenerateQuestion(questionData['selectQuestion'], 'selectQuestion');
-                    // GenerateQuestion(questionData['answerQuestion'], 'answerQuestion');
-                    // GenerateQuestion(questionData['calculateQuestion'], 'calculateQuestion');
-                    // GenerateQuestion(questionData['synthesizeQuestion'], 'synthesizeQuestion');
+                    try {
+                        GenerateQuestion(questionData['explainQuestion'], 'explainQuestion');
+
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    try {
+                        GenerateQuestion(questionData['selectQuestion'], 'selectQuestion');
+
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    try {
+                        GenerateQuestion(questionData['answerQuestion'], 'answerQuestion');
+
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    try {
+                        GenerateQuestion(questionData['calculateQuestion'], 'calculateQuestion');
+
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    try {
+                        GenerateQuestion(questionData['synthesizeQuestion'], 'synthesizeQuestion');
+
+                    } catch (e) {
+                        console.log(e)
+                    }
                     //题目框悬停特效
                     $("div.questionBox").hover(function () {
                         $(this).toggleClass('questionBoxOn')
