@@ -1,4 +1,4 @@
-{
+const data = {
   "1": {
     "112": {
       "explainQuestion": {
